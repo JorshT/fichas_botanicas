@@ -1,5 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { accesoOr404 } from "@/lib/acceso";
+import { accesoOr404, obtenerAcceso } from "@/lib/acceso";
+
+// Hace la colección instalable en el celular ("Instalar app" en Android,
+// "Agregar a pantalla de inicio" en iPhone).
+export async function generateMetadata({ params }: LayoutProps<"/c/[token]">): Promise<Metadata> {
+  const { token } = await params;
+  const acceso = await obtenerAcceso(token);
+  if (!acceso) return {};
+  return {
+    manifest: `/c/${token}/manifest.webmanifest`,
+    appleWebApp: { capable: true, title: acceso.coleccion.nombre, statusBarStyle: "default" },
+  };
+}
 
 export default async function LayoutColeccion({ children, params }: LayoutProps<"/c/[token]">) {
   const { token } = await params;
