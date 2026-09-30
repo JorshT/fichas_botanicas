@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --fondo: #f6f5ef;
+  --superficie: #ffffff;
+  --texto: #1f2a1f;
+  --texto-suave: #5b665b;
+  --borde: #dcdfd3;
+  --marca: #2f6b3a;
+  --marca-oscura: #214d29;
+  --marca-suave: #e6efe3;
+  --peligro: #b3261e;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --fondo: #121611;
+    --superficie: #1b2119;
+    --texto: #e7ece4;
+    --texto-suave: #a3ad9f;
+    --borde: #313a2e;
+    --marca: #7dbb82;
+    --marca-oscura: #9fd3a3;
+    --marca-suave: #22301f;
+    --peligro: #f2b8b5;
   }
 }
 
+@theme inline {
+  --color-fondo: var(--fondo);
+  --color-superficie: var(--superficie);
+  --color-texto: var(--texto);
+  --color-texto-suave: var(--texto-suave);
+  --color-borde: var(--borde);
+  --color-marca: var(--marca);
+  --color-marca-oscura: var(--marca-oscura);
+  --color-marca-suave: var(--marca-suave);
+  --color-peligro: var(--peligro);
+  --font-sans: var(--font-geist-sans);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+/* Botones reutilizables */
+@utility boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  color: var(--texto);
+  cursor: pointer;
+  &:hover {
+    border-color: var(--marca);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@utility boton-principal {
+  background: var(--marca);
+  border-color: var(--marca);
+  color: #fff;
+  &:hover {
+    background: var(--marca-oscura);
+  }
+}
+
+@utility campo {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  &:focus {
+    outline: 2px solid var(--marca);
+    outline-offset: 1px;
+  }
+}
+
+/* Impresión / "Guardar como PDF": solo la ficha, en blanco y negro sobre blanco. */
+@media print {
+  :root {
+    --fondo: #fff;
+    --superficie: #fff;
+    --texto: #000;
+    --texto-suave: #333;
+    --borde: #999;
+  }
+  .no-imprimir {
+    display: none !important;
+  }
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
 }
